@@ -4,11 +4,13 @@ The upstream archive did not contain the project board referenced by CLAUDE.md. 
 
 | Project | State | Next check |
 | --- | --- | --- |
-| [Star operator workspace](projects/star-operator/TASKS.md) | In progress · 2026-10-27 | Windows runtime, tests, real read-only snapshot and browser verification |
+| [Star operator workspace](projects/star-operator/TASKS.md) | Locally verified · 2026-10-27 | Operator review before public push |
 
 ## Checklist
 
 - [x] 2026-10-27: fork created; isolated local branch and private state boundary
 - [x] 2026-10-27: Korean workspace and existing Star client adapter implemented
-- [ ] Run tests and typecheck; verify browser behaviour
-- [ ] Review final code before any push
+- [x] 2026-10-27: AX source adapter and four flow views implemented
+- [x] 2026-10-27: tests and typecheck verified; three parallel timeouts rechecked as documented in the project task
+- [x] 2026-10-27: real local browser controls and final code reviewed; private files excluded
+- [ ] Obtain the operator's explicit yes before any public push

@@ -24,7 +24,7 @@ const KEYS = ['GLADOS_DB', 'GLADOS_ENV_LOCAL', 'GLADOS_MODE_FILE', 'DEMO_MODE', 
 const saved = Object.fromEntries(KEYS.map((k) => [k, process.env[k]]));
 let dir: string;
 
-beforeAll(() => {
+beforeAll(async () => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lab-radar-'));
   for (const k of KEYS) delete process.env[k];
   process.env.GLADOS_DB = path.join(dir, 'test.db');
@@ -34,7 +34,10 @@ beforeAll(() => {
   process.env.GLADOS_AUTOMATION_DIR = path.join(dir, 'Automation');
   process.env.DEMO_MODE = '0';
   invalidateModeCache();
-});
+  // Finish the cold route transform after hermetic environment setup. The API
+  // assertion retains its normal deadline and never calls a live provider.
+  await import('@/app/api/lab/radar/route');
+}, 120_000);
 afterAll(() => {
   for (const k of KEYS) (saved[k] === undefined ? delete process.env[k] : (process.env[k] = saved[k]));
   invalidateModeCache();

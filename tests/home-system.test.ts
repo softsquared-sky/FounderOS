@@ -47,7 +47,7 @@ vi.mock('next/headers', async (importOriginal) => ({
 const read = (p: string) => readFileSync(path.join(process.cwd(), p), 'utf8');
 let root = '';
 
-beforeAll(() => {
+beforeAll(async () => {
   root = mkdtempSync(path.join(tmpdir(), 'glados-home-system-'));
   process.env.GLADOS_DB = path.join(root, 'test.db');
   process.env.FUNNEL_PROVIDER = 'seed';
@@ -55,7 +55,10 @@ beforeAll(() => {
   process.env.GBRAIN_STORE = path.join(root, 'brain-store');
   process.env.BRAIN_PROVIDER = 'stub';
   fs.mkdirSync(process.env.GBRAIN_STORE, { recursive: true });
-});
+  // Vite's cold server-module transform is fixture setup, not a Home render.
+  // Keep the existing per-render deadlines and subprocess assertions intact.
+  await import('@/components/Home6Console');
+}, 120_000);
 afterAll(() => {
   vi.unstubAllEnvs();
 });

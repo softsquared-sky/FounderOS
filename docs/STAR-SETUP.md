@@ -24,6 +24,8 @@ STAR_AX_DIR="/absolute/path/to/local/ax-evolution"
 
 Run `npm run star:sync` once and `npm run dev`. Open `http://127.0.0.1:4188/star`. The **스타에서 가져오기** button runs the same read-only import on demand. It never starts collection, a model, an approval, a task or a message.
 
+On Windows, `scripts/start-star.ps1 -NodePath C:/path/to/node.exe -Port 4188` starts this fork in a hidden process and writes only a PID receipt and logs under `.local/`. It refuses an occupied port and does not install an automatic startup job.
+
 The existing dashboard directory must expose `routine-client.mjs` and `board-core.mjs`. The import calls only `routineRequest('state')` using that client's existing authentication. No credentials enter this repo's local settings, snapshots or browser. No other computer's credentials or files are used.
 
 `.local/star-snapshot.json` is a display snapshot, not a canonical ledger. It holds only whitelisted business-ticket fields and role labels. No raw prompts, results, comments, transcripts, notification previews or email settings are imported. The existing board's states and role merges are preserved; a queued request is never evidence of execution. Data older than 15 minutes is marked as an earlier snapshot. Projection verification time is displayed separately.
