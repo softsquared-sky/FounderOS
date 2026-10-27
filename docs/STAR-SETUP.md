@@ -32,6 +32,8 @@ The existing dashboard directory must expose `routine-client.mjs` and `board-cor
 
 Approvals, responses, execution and completion continue in the existing Star dashboard. Its current UI has no ticket deep link, so the detail shows the original ID and opens the existing work board. This page does not invent an unsupported deep link.
 
+The upstream BrainProvider uses gbrain and a markdown store. This Star adapter does not yet call Hindsight or populate Optimal Engine's graph from `agent-star`. Star's existing memory service remains separate; a work-ticket snapshot is not a memory-bank integration.
+
 ## AX flow
 
 The optional `STAR_AX_DIR` adds the AX view to the same private snapshot. The importer reads only `architecture/catalog.json`, the first Mermaid graph in `maps/lineage.md`, and `records/2026/10/ax-20261021-ten-stage-ax-model.md`. Source hashes and source dates are shown. Missing and invalid sources have distinct states; a historical or proposed component is never marked as a verified live service.
