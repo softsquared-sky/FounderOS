@@ -47,7 +47,7 @@ const fontJetBrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: BRAND.title,
+  title: process.env.FOUNDEROS_PROFILE === 'star' ? 'STAR · 하늘의 비서실' : BRAND.title,
   description: 'Personal operating system and AI agent command center',
 };
 
@@ -72,6 +72,9 @@ function buildCommands(off: string[]): Command[] {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  if (process.env.FOUNDEROS_PROFILE === 'star') {
+    return <html lang="ko"><body className={fontGeist.variable}>{children}</body></html>;
+  }
   const appearance = getAppearance();
   // The shell renders its GladOS look from the first byte when the cookie says
   // so (S00 §5.5); after hydration each shell piece follows html[data-ui] live.

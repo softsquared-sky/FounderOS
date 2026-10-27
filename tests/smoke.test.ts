@@ -42,6 +42,7 @@ type PageEntry = {
 
 // Every app/**/page.tsx, with the props each needs to be invoked.
 const PAGES: PageEntry[] = [
+  { file: 'star/page.tsx', load: () => import('@/app/star/page') },
   { file: 'page.tsx', load: () => import('@/app/page') },
   { file: 'brand-deals/page.tsx', load: () => import('@/app/brand-deals/page') },
   // fo/clients (founderos-ui pages/clients.md, lead-magnets.md)

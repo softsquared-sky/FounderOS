@@ -1,5 +1,7 @@
 # FounderOS
 
+This fork adds an optional Korean Star operator workspace with a manual, read-only connection to an existing Star installation and private AX lineage files. See [Star setup](docs/STAR-SETUP.md). Upstream FounderOS is [Bennettxai/FounderOS](https://github.com/Bennettxai/FounderOS); its original features and license are preserved.
+
 **A personal operating system for a one-person company: a command center that
 runs your business as a set of AI-assisted departments.**
 

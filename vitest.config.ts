@@ -23,6 +23,7 @@ export default defineConfig({
     // time (lib/creds.ts), so tests must never see the operator's real file. Tests
     // that exercise the store point this at their own tmp path.
     env: {
+      STAR_SNAPSHOT_FILE: path.resolve(__dirname, 'tests', '.star-snapshot.does-not-exist'),
       GLADOS_ENV_LOCAL: path.resolve(__dirname, 'tests', '.env.local.does-not-exist'),
       // Hermetic data dir: the operator's Filming switch (.glados-mode) must never point
       // a test run at demo-data/. Tests that exercise the switch set their own file.

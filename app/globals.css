@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Star profile: all workspace colours are tokens. */
+:root {
+  --star-bg: #f6f7f9; --star-surface: #ffffff; --star-text: #202632;
+  --star-muted: #788290; --star-line: #e5e8ee; --star-soft: #f0f2f6;
+  --star-accent: #3f65db; --star-accent-soft: #eef2ff;
+  --star-green: #39826e; --star-green-soft: #e9f4ef;
+  --star-amber: #a8772c; --star-amber-soft: #faf3e8;
+  --star-overlay: #17223566; --star-shadow: #16223a14;
+}
+
 /* CONSOLE 6 — design style 5 re-toned to UI Example 6 ("apply this design to all pages"). Deep teal-black canvas, glass-gradient
    cards, MINT accent (#00ffab — matches the Optimal Engine
    radial), Geist type. The blue→ice→violet→orchid data ramp stays for

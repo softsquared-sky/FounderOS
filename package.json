@@ -4,6 +4,7 @@
   "private": true,
   "description": "GladOS — an open-source personal operating system and AI agent command center for a one-person business",
   "scripts": {
+    "star:sync": "tsx scripts/star-sync.ts",
     "dev": "node scripts/serve.mjs dev",
     "build": "next build",
     "start": "node scripts/serve.mjs start",
