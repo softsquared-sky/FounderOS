@@ -33,8 +33,8 @@ describe('brand-deals parsers', () => {
     expect(rows[0].subject).toContain('Sponsorship');
   });
 
-  test('parseLog extracts recipients and chronological events', () => {
-    const { recipients, events } = parseLog(logText);
+  test.each(['\n', '\r\n'])('parseLog extracts recipients and chronological events (%j)', lineEnding => {
+    const { recipients, events } = parseLog(logText.replace(/\r?\n/g, lineEnding));
     expect(recipients.get('r2001')).toContain('contact1@brand1.example');
     const kinds = new Set(events.map((e) => e.kind));
     expect(kinds.has('announced')).toBe(true);

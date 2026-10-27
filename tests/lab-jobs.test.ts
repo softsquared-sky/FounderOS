@@ -127,13 +127,13 @@ describe('AC-08-11: one scheduler', () => {
     const store = fresh();
     seedSources(store);
     const calls: LabJobId[] = [];
-    const r = await tick(store, syd(14, 6, 5), calls, { exists: (p) => p === '/auto/PAUSED-radar' });
+    const r = await tick(store, syd(14, 6, 5), calls, { exists: (p) => p === path.join('/auto', 'PAUSED-radar') });
     expect(r.ran).toContain('sync');
     expect(r.ran.filter((id) => id.startsWith('radar.') || id === 'brief')).toEqual([]);
     expect(r.res.skipped['radar.vendor']).toBe('Paused by PAUSED-radar');
-    const p = await tick(fresh(), syd(14, 6, 5), calls, { exists: (x) => x === '/auto/PAUSED-lab' });
+    const p = await tick(fresh(), syd(14, 6, 5), calls, { exists: (x) => x === path.join('/auto', 'PAUSED-lab') });
     expect(p.ran).toEqual([]);
-    expect(p.res.paused).toBe('/auto/PAUSED-lab');
+    expect(p.res.paused).toBe(path.join('/auto', 'PAUSED-lab'));
   });
 
   test('a throwing job does not stop later jobs; its state counts the failure', async () => {

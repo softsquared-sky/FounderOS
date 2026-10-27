@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 
-const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8');
+const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8').replace(/\r\n/g, '\n');
 
 describe('/analytics honesty (H21 to H23)', () => {
   const page = read('app/analytics/page.tsx');

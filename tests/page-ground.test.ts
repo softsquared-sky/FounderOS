@@ -16,7 +16,7 @@ const DARK_PAPER = ":where(:root[data-mode='dark']) .ae-paper, :where(:root:not(
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const name of readdirSync(join(root, dir))) {
-    const rel = join(dir, name);
+    const rel = join(dir, name).replace(/\\/g, '/');
     if (statSync(join(root, rel)).isDirectory()) walk(rel, out);
     else if (/\.tsx?$/.test(name)) out.push(rel);
   }

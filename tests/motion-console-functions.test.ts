@@ -171,6 +171,10 @@ describe('path check helpers and route', () => {
     expect(checkPathProblem('/a/../etc/passwd')).toMatch(/\.\./);
     expect(checkPathProblem('')).toMatch(/required/);
     expect(checkPathProblem('/a/b..c.jpg')).toBeNull();
+    expect(checkPathProblem('C:\\media\\frame.png')).toBeNull();
+    expect(checkPathProblem('C:/media/frame.png')).toBeNull();
+    expect(checkPathProblem('C:\\media\\..\\private.png')).toMatch(/\.\./);
+    expect(checkPathProblem('C:relative.png')).toMatch(/absolute/);
   });
   const call = async (p: string) => {
     const res = await assetsGET(new Request(`http://local/api/creative-engine/arcads/assets?check=${encodeURIComponent(p)}`));

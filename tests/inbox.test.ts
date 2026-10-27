@@ -15,7 +15,7 @@ import {
   triageOf,
 } from '@/lib/inbox';
 
-const NOW = new Date('2026-09-16T15:00:00.000Z');
+const NOW = new Date(2026, 8, 16, 15, 0, 0); // local afternoon in every test timezone
 const ago = (mins: number) => new Date(NOW.getTime() - mins * 60_000).toISOString();
 const ahead = (mins: number) => new Date(NOW.getTime() + mins * 60_000).toISOString();
 

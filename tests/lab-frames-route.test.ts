@@ -73,7 +73,7 @@ describe('AC-02-43 /lab-frames/<state>', () => {
       }
     };
     visit(PAGE);
-    const rel = [...seen].map((f) => f.slice(ROOT.length + 1));
+    const rel = [...seen].map((f) => f.slice(ROOT.length + 1).replace(/\\/g, '/'));
     expect(rel).toContain('lib/lab/view/frames.ts');
     for (const f of rel) {
       expect(f, f).not.toMatch(/^(lib\/lab\/store|lib\/db|lib\/data|lib\/lab\/fixtures|app\/lab\/)/);

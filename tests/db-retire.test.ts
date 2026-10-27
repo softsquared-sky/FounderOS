@@ -86,11 +86,15 @@ describe('retireTables (SPEC S12 §5.3)', () => {
   });
 
   test('(c) unwritable retired/: tables kept, one warning each, no throw, the app still opens', () => {
-    if (process.getuid?.() === 0) return; // root ignores file modes
     const { dir, file } = tempDb();
     seedLegacy(file, { domains: 2, personas: 1 });
     fs.mkdirSync(path.join(dir, 'retired'));
-    fs.chmodSync(path.join(dir, 'retired'), 0o555);
+    // Unix chmod is not a write-denial mechanism on Windows or under root.
+    const originalWrite = fs.writeFileSync;
+    const deny = vi.spyOn(fs, 'writeFileSync').mockImplementation((...args: Parameters<typeof fs.writeFileSync>) => {
+      if (String(args[0]).startsWith(path.join(dir, 'retired') + path.sep)) throw Object.assign(new Error('permission denied'), { code: 'EACCES' });
+      return originalWrite(...args);
+    });
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     let db: ReturnType<typeof openDb> | undefined;
     expect(() => {
@@ -98,6 +102,7 @@ describe('retireTables (SPEC S12 §5.3)', () => {
     }).not.toThrow();
     expect(db!.departments.all()).toEqual([]);
     db!.close();
+    deny.mockRestore();
     const msgs = warn.mock.calls.map((c) => String(c[0]));
     warn.mockRestore();
     expect(msgs.filter((m) => m.startsWith('[db] retire domains skipped'))).toHaveLength(1);

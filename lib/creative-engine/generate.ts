@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { relFromPublic } from '@/lib/creative-engine/migrate';
 import { engineEnv } from '@/lib/creative-engine/env';
 import { randomUUID } from 'node:crypto';
@@ -340,7 +341,7 @@ export async function advanceArcadsRuns(minAgeMs = 15_000, clientOverride?: Arca
       let thumb: string | null = null;
       if (run.dry || !result.url) {
         const p = assetPathFor(folder, assetId, kind === 'video' ? '.mp4' : '.png');
-        fs.mkdirSync(p.abs.replace(/[^/]+$/, ''), { recursive: true });
+        fs.mkdirSync(path.dirname(p.abs), { recursive: true });
         fs.writeFileSync(p.abs, run.dry ? Buffer.from('dry run placeholder') : Buffer.alloc(0));
         publicPath = p.publicPath;
         abs = p.abs;

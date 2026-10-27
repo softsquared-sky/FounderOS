@@ -18,7 +18,7 @@ import { loadClassicControls } from '../scripts/g-audit/_lib.mjs';
  */
 
 const root = path.resolve(__dirname, '..');
-const read = (p: string) => readFileSync(path.join(root, p), 'utf8');
+const read = (p: string) => readFileSync(path.join(root, p), 'utf8').replace(/\r\n/g, '\n');
 const CFG = loadClassicControls(root);
 
 const realError = console.error;

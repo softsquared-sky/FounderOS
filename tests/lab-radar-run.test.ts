@@ -132,10 +132,10 @@ describe('AC-05-7 pause scopes', () => {
   test('PAUSED-radar stops radar, not the sync; PAUSED-lab stops all', async () => {
     const dirs = ['/auto'];
     const only = (f: string) => (p: string) => p === path.join('/auto', f);
-    expect(pausedBy(dirs, only('PAUSED-radar'), 'radar')).toBe('/auto/PAUSED-radar');
+    expect(pausedBy(dirs, only('PAUSED-radar'), 'radar')).toBe(path.join('/auto', 'PAUSED-radar'));
     expect(pausedBy(dirs, only('PAUSED-radar'), 'lab')).toBeNull();
-    expect(pausedBy(dirs, only('PAUSED-lab'), 'lab')).toBe('/auto/PAUSED-lab');
-    expect(pausedBy(dirs, only('PAUSED-lab'), 'radar')).toBe('/auto/PAUSED-lab');
+    expect(pausedBy(dirs, only('PAUSED-lab'), 'lab')).toBe(path.join('/auto', 'PAUSED-lab'));
+    expect(pausedBy(dirs, only('PAUSED-lab'), 'radar')).toBe(path.join('/auto', 'PAUSED-lab'));
     const s = fresh();
     const r = await runRadarNow(s, { now: NOW, paused: '/auto/PAUSED-radar' });
     expect(r.ran).toEqual([]);

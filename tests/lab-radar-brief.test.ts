@@ -79,7 +79,7 @@ describe('AC-05-30, AC-05-31 the Wizard hook', () => {
   };
   const files = () => {
     const out: string[] = [];
-    const walk = (d: string) => fs.existsSync(d) && fs.readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : out.push(path.relative(home, path.join(d, e.name)))));
+    const walk = (d: string) => fs.existsSync(d) && fs.readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : out.push(path.relative(home, path.join(d, e.name)).replace(/\\/g, '/'))));
     walk(home);
     return out.sort();
   };
@@ -137,7 +137,7 @@ describe('AC-05-30, AC-05-31 the Wizard hook', () => {
       spyW.mockRestore();
       spyR.mockRestore();
     }
-    const outside = writes.filter((w) => !/events\/lab-brief-\d{4}-\d{2}-\d{2}\.json(\.\d+\.tmp)?$/.test(w));
+    const outside = writes.filter((w) => !/events\/lab-brief-\d{4}-\d{2}-\d{2}\.json(\.\d+\.tmp)?$/.test(w.replace(/\\/g, '/')));
     expect(writes.length).toBeGreaterThan(0);
     expect(outside).toEqual([]);
   });

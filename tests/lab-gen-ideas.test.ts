@@ -175,7 +175,7 @@ describe('one entry point for user-created ideas (AC-07-62)', () => {
     const allowed = new Set(['lib/lab/ideas.ts', 'lib/lab/gen/diversity.ts', 'lib/lab/gen/event-idea.ts', 'lib/lab/gen/comments.ts', 'lib/lab/store.ts', 'lib/lab/fixtures/world.ts', 'lib/lab/fixtures/gen.ts']);
     const writers = [...walk(path.join(ROOT, 'lib')), ...walk(path.join(ROOT, 'app'))]
       .filter((f) => /INSERT (OR REPLACE )?INTO lab_ideas|\.ideas\.(insert|upsert)\(/.test(fs.readFileSync(f, 'utf8')))
-      .map((f) => path.relative(ROOT, f));
+      .map((f) => path.relative(ROOT, f).replace(/\\/g, '/'));
     for (const w of writers) expect(allowed.has(w), `${w} writes lab_ideas`).toBe(true);
     // routes never write ideas directly: they call the lib entry points above
     expect(writers.filter((w) => w.startsWith('app/'))).toEqual([]);

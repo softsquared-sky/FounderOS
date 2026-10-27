@@ -18,7 +18,7 @@ function walk(dir: string): string[] {
   });
 }
 
-const files = walk(ROOT).map((p) => ({ path: relative(process.cwd(), p), src: readFileSync(p, 'utf8') }));
+const files = walk(ROOT).map((p) => ({ path: relative(process.cwd(), p).replace(/\\/g, '/'), src: readFileSync(p, 'utf8') }));
 
 // Concepts that have leaked into placeholders before, or that the spec names as
 // example concepts. Matched case-insensitively after "for example" / "e.g.".

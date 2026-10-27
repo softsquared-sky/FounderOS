@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
+import { tmpdir } from 'node:os';
 import Database from 'better-sqlite3';
 import { LAB_DDL, LAB_FORECASTS_TRIGGER_DDL, LAB_SCHEMA_VERSION, LAB_V2_COLUMNS, LAB_V2_DDL, LEDGER_TRIGGERS_DDL, lab_meta_version, migrateLabV2, openDb } from '@/lib/db';
 import { LAB_TABLES, labStore } from '@/lib/lab/store';
@@ -106,7 +107,7 @@ describe('migrateLabV2 (08.11.2)', () => {
   });
 
   test('openDb on a file created by v1 migrates it in place, and reopening changes nothing', () => {
-    const dir = fs.mkdtempSync(path.join(process.env.TMPDIR ?? '/tmp', 'lab-migrate-'));
+    const dir = fs.mkdtempSync(path.join(tmpdir(), 'lab-migrate-'));
     const file = path.join(dir, 'v1.db');
     const v1 = new Database(file);
     v1.exec(V1_DDL);
@@ -183,8 +184,8 @@ describe('one migration, one place (08.11.2 grep test)', () => {
 
   test('exactly one function migrateLabV2, and no ALTER TABLE lab_ outside lib/db.ts', () => {
     const defs = source.filter((f) => /function migrateLabV2\b/.test(fs.readFileSync(f, 'utf8')));
-    expect(defs.map((f) => path.relative(ROOT, f))).toEqual(['lib/db.ts']);
-    const alters = source.filter((f) => path.relative(ROOT, f) !== 'lib/db.ts' && /ALTER TABLE lab_/.test(fs.readFileSync(f, 'utf8')));
-    expect(alters.map((f) => path.relative(ROOT, f))).toEqual([]);
+    expect(defs.map((f) => path.relative(ROOT, f).replace(/\\/g, '/'))).toEqual(['lib/db.ts']);
+    const alters = source.filter((f) => path.relative(ROOT, f).replace(/\\/g, '/') !== 'lib/db.ts' && /ALTER TABLE lab_/.test(fs.readFileSync(f, 'utf8')));
+    expect(alters.map((f) => path.relative(ROOT, f).replace(/\\/g, '/'))).toEqual([]);
   });
 });

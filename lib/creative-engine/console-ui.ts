@@ -260,7 +260,7 @@ export function checkPathProblem(p: string | null | undefined): string | null {
   if (!p || !p.trim()) return 'path required';
   if (p.length > 1024) return 'path too long';
   if (p.includes('\0')) return 'invalid path';
-  if (!p.startsWith('/')) return 'path must be absolute';
-  if (p.split('/').some((seg) => seg === '..')) return 'path must not contain ..';
+  if (!p.startsWith('/') && !/^[A-Za-z]:[\\/]/.test(p)) return 'path must be absolute';
+  if (p.split(/[\\/]/).some((seg) => seg === '..')) return 'path must not contain ..';
   return null;
 }

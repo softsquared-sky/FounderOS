@@ -70,7 +70,7 @@ describe('AC-01-30 copy rules', () => {
     const root = path.join(process.cwd(), 'components/lab/v2');
     const scan = (d: string): string[] => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? scan(path.join(d, e.name)) : [path.join(d, e.name)]));
     for (const f of scan(root).filter((x) => x.endsWith('.tsx'))) {
-      const rel = path.relative(root, f);
+      const rel = path.relative(root, f).replace(/\\/g, '/');
       for (const m of readFileSync(f, 'utf8').matchAll(/>([A-Za-z][^<{]{2,})</g)) {
         expect(KNOWN.has(`${rel}:${m[1].trim()}`), `${rel}: "${m[1]}"`).toBe(true);
       }

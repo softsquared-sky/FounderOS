@@ -86,7 +86,7 @@ export function parseRecipient(raw: string): { name: string; email: string } {
 
 export function parsePendingList(text: string): Array<{ id: string; to: string; subject: string }> {
   const out: Array<{ id: string; to: string; subject: string }> = [];
-  for (const line of text.split('\n')) {
+  for (const line of text.split(/\r?\n/)) {
     const parts = line.split('\t');
     if (parts.length === 3 && /^r-?\d+$/.test(parts[0])) {
       out.push({ id: parts[0], to: parts[1], subject: parts[2] });
@@ -101,7 +101,7 @@ export function parseLog(text: string): {
 } {
   const recipients = new Map<string, string>();
   const events: DealEvent[] = [];
-  for (const line of text.split('\n')) {
+  for (const line of text.split(/\r?\n/)) {
     const [at, msg] = line.split('\t');
     if (!at || !msg) continue;
     let m = msg.match(/^announced (r-?\d+) -> (.+)$/);

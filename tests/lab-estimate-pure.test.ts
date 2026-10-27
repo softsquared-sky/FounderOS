@@ -49,6 +49,6 @@ describe('AC-09-7: estimate.ts is pure', () => {
       if (/[^.\w]fetch\s*\(/.test(src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, ''))) bad.push(`${path.relative(ROOT, f)} calls fetch`);
     }
     expect(bad).toEqual([]);
-    expect([...seen].map((f) => path.relative(ROOT, f))).toContain('lib/lab/setup/pricing-book.ts');
+    expect([...seen].map((f) => path.relative(ROOT, f).replace(/\\/g, '/'))).toContain('lib/lab/setup/pricing-book.ts');
   });
 });

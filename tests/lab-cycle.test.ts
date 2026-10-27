@@ -134,10 +134,10 @@ describe('dry end-to-end cycle', () => {
 describe('schedule and kill switch', () => {
   test('PAUSED or PAUSED-lab in any Automation folder stops the job', () => {
     const dirs = automationDirs({ GLADOS_AUTOMATION_DIR: '/auto' }, '/home/x');
-    expect(dirs).toEqual(['/auto', '/home/x/Sync/brain/Automation', '/home/x/Desktop/brain/Automation']);
+    expect(dirs).toEqual(['/auto', path.join('/home/x', 'Sync/brain/Automation'), path.join('/home/x', 'Desktop/brain/Automation')]);
     expect(pausedBy(dirs, () => false)).toBeNull();
-    expect(pausedBy(dirs, (p) => p === '/home/x/Sync/brain/Automation/PAUSED-lab')).toBe('/home/x/Sync/brain/Automation/PAUSED-lab');
-    expect(pausedBy(dirs, (p) => p.endsWith('/auto/PAUSED'))).toBe('/auto/PAUSED');
+    expect(pausedBy(dirs, (p) => p === path.join('/home/x', 'Sync/brain/Automation/PAUSED-lab'))).toBe(path.join('/home/x', 'Sync/brain/Automation/PAUSED-lab'));
+    expect(pausedBy(dirs, (p) => p === path.join('/auto', 'PAUSED'))).toBe(path.join('/auto', 'PAUSED'));
   });
 
   test('next fire time is the next listed local hour', () => {

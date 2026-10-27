@@ -20,7 +20,10 @@ beforeAll(() => {
   vi.stubEnv('GLADOS_MODE_FILE', path.join(root, '.glados-mode'));
   vi.stubEnv('GLADOS_DEFAULT_MODE', 'demo');
 });
-afterAll(() => {
+afterAll(async () => {
+  // Windows cannot unlink an open SQLite file.
+  const { getDb } = await import('@/lib/data');
+  getDb().close();
   cwd.mockRestore();
   vi.unstubAllEnvs();
   fs.rmSync(root, { recursive: true, force: true });
