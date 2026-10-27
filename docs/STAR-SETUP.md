@@ -32,7 +32,33 @@ The existing dashboard directory must expose `routine-client.mjs` and `board-cor
 
 Approvals, responses, execution and completion continue in the existing Star dashboard. Its current UI has no ticket deep link, so the detail shows the original ID and opens the existing work board. This page does not invent an unsupported deep link.
 
-The upstream BrainProvider uses gbrain and a markdown store. This Star adapter does not yet call Hindsight or populate Optimal Engine's graph from `agent-star`. Star's existing memory service remains separate; a work-ticket snapshot is not a memory-bank integration.
+The upstream BrainProvider defaults to gbrain and a markdown store. This fork also implements an opt-in `hindsight-star` provider and a **기억·그래프** view. Set `BRAIN_PROVIDER=hindsight-star`; under the Star profile `/brain` opens the same Star memory workspace and `/api/brain` uses Hindsight search. Without the option, the upstream provider is unchanged. Filming/demo mode cannot query the real bank.
+
+## Hindsight Star memory
+
+The connector is fixed to `agent-star`. It reads status, bounded graph data, recall results and the source chunk of a bank-scoped fact. It cannot retain, edit, delete, consolidate or reflect. BrainDump ingestion returns 405 when this provider is selected.
+
+Choose one server-only configuration method:
+
+```dotenv
+# Existing Control Plane login settings, referenced from a private local file:
+STAR_HINDSIGHT_CREDENTIALS_FILE="/absolute/private/hindsight-dashboard-credentials.env"
+```
+
+That file contains `HINDSIGHT_DASHBOARD_URL` and `HINDSIGHT_DASHBOARD_ACCESS_KEY`. The server uses the normal `/api/auth/login` protocol. Its own session cookie stays in server memory for up to ten minutes; no browser session is copied. The existing access key may have broader permissions upstream: the connector itself restricts the bank and allowed operations. It does not create a new restricted key or change upstream permissions.
+
+Alternatively, configure the native Hindsight HTTP API:
+
+```dotenv
+STAR_HINDSIGHT_URL=https://your-hindsight-api.example
+STAR_HINDSIGHT_API_KEY_FILE="/absolute/private/read-only-api-key.txt"
+```
+
+URLs, bank IDs, credentials and operations cannot be supplied by browser input. The local app's existing authentication, origin and loopback guards stay active. Authentication failures, missing setup, invalid responses and empty successful results remain distinct. Responses use `no-store`, stay in component memory and are not written into SQLite or the work snapshot. Credentials and live verification files must remain ignored.
+
+The graph displays at most 120 requested nodes (server maximum 180) and only stored edges among displayed nodes. Missing type labels are joined by exact IDs from an equally bounded bank list, otherwise shown as unknown. Layout positions are visual, not semantic scores. Recall includes original chunks and supporting facts; incomplete or truncated evidence is marked unverified. The compact native BrainProvider omits unbacked matches. Source-chunk reads support both current and older Control Plane routes and verify bank/document ownership before returning text.
+
+Protocols: [Hindsight HTTP API](https://hindsight.vectorize.io/api-reference), [Control Plane login](https://github.com/vectorize-io/hindsight/blob/main/hindsight-control-plane/src/app/api/auth/login/route.ts), and [upstream chunk-route compatibility change](https://github.com/vectorize-io/hindsight/commit/25d266937163a9236026bfa82b2b6e0d33b91ea7).
 
 ## AX flow
 

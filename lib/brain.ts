@@ -6,6 +6,7 @@
  */
 import { brainProviderName } from '@/lib/stores';
 import { createGBrainProvider } from '@/lib/connectors/gbrain';
+import { createHindsightStarProvider } from '@/lib/connectors/hindsight-star';
 
 export type BrainStatus = {
   connected: boolean;
@@ -43,5 +44,6 @@ const stubProvider: BrainProvider = {
 export function getBrainProvider(): BrainProvider {
   const name = brainProviderName();
   if (name === 'stub') return stubProvider;
+  if (name === 'hindsight-star') return createHindsightStarProvider();
   return createGBrainProvider();
 }

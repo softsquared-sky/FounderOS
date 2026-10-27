@@ -28,6 +28,9 @@ import { GPage, GSectionHeader } from '@/components/g';
 import { GStyleProvider } from '@/components/system-g/style-context';
 import { BrainSection, DoctorHero, FolderBars, PillarHealth, RadialStage, StorageLayers } from '@/components/brain/BrainG';
 import { BrainAbout } from '@/components/brain/BrainAbout';
+import { StarWorkspace } from '@/components/star/StarWorkspace';
+import { loadStarSnapshot } from '@/lib/star/source';
+import { brainProviderName } from '@/lib/stores';
 
 export const dynamic = 'force-dynamic';
 
@@ -155,6 +158,7 @@ function memoryConstellation(): MemoryGraph | undefined {
 }
 
 export default async function BrainPage() {
+  if (process.env.FOUNDEROS_PROFILE === 'star' && brainProviderName() === 'hindsight-star') return <StarWorkspace initial={loadStarSnapshot()} initialSection="memory" />;
   const provider = createGBrainProvider();
   const db = getDb();
   // Started now, awaited only inside the graph's Suspense boundary.

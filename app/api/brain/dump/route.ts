@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { ingestBrainDump } from '@/lib/brain-dump';
 import { createGBrainProvider, type CaptureInput } from '@/lib/connectors/gbrain';
+import { brainProviderName } from '@/lib/stores';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,7 @@ const DumpSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  if (brainProviderName() === 'hindsight-star') return NextResponse.json({ error: 'Hindsight Star is read-only. Use the existing Star record workflow.' }, { status: 405 });
   const parsed = DumpSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });

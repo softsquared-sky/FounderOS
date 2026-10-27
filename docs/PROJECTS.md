@@ -13,4 +13,5 @@ The upstream archive did not contain the project board referenced by CLAUDE.md. 
 - [x] 2026-10-27: AX source adapter and four flow views implemented
 - [x] 2026-10-27: tests and typecheck verified; three parallel timeouts rechecked as documented in the project task
 - [x] 2026-10-27: real local browser controls and final code reviewed; private files excluded
+- [x] 2026-10-27: Hindsight Star bank connector, native search provider, bounded graph and source evidence implemented; affected tests and live reads verified
 - [ ] Obtain the operator's explicit yes before any public push
